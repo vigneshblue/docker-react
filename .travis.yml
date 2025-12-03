@@ -1,0 +1,18 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t vigneshblue/docker-react -f Dockerfile.dev .
+
+script:
+  - docker run -e CI=true vigneshblue/docker-react npm run test
+  
+deploy:
+  provide: elasticbeanstalk
+  region: "eu-north-1"
+  app: "frontend"
+  env: "Frontend-env"
+  bucket_name: "elasticbeanstalk-eu-north-1-820979687630"
+  bucket_path: "frontend"
+
